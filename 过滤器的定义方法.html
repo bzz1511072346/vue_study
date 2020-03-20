@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p v-cloak>{{ msg | msgFormat('疯狂','123') | test}}</p>
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+<script>
+    Vue.filter('msgFormat',function(msg,arg,opt){
+      return msg.replace(/单纯/g,arg + opt)
+    });
+    Vue.filter('test',function(msg){
+        return msg+ '======='
+    })
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            msg: '曾经我也是一个单纯的少年，单纯的我，傻傻的问谁是世界上最单纯的少年',  
+        },
+        methods: {
+            
+        },
+    })
+
+</script>
+
+</html>
