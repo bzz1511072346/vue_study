@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <com1 @func='show'></com1>
+    </div>
+    <template id="teml">
+        <div>
+            <h3>这是一个子组件</h3>
+            <input type="button" value="调用了父组件传递的方法" @click='sonclick'>
+        </div>
+    </template>
+</body>
+<script src="./libs/vue.js"></script>
+<script>
+    let com1 = {
+        template:'#teml',
+        data(){
+            return{
+                sonmsg:{name:'黄老板',age:18,gender:'女'}
+            }
+        },
+        methods:{
+            sonclick(){
+                // this.$emit('func',123)
+                this.$emit('func',this.sonmsg)
+            }
+        }
+    }
+    let vm = new Vue({
+        el:'#app',
+        data:{
+
+        },
+        methods: {
+            show(data){
+                // console.log('调用了父组件的show方法---'+data)
+                console.log(data);
+            }
+        },
+        components: {
+            com1
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue-router的基本使用</title>
+    <script src="./libs/vue.js"></script>
+    <script src="./libs/vue-router.js"></script>
+    <style>
+        .router-link-active{
+            color: palevioletred;
+            font-size: 16px;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- <login></login>
+        <register></register> -->
+        <!-- 使用query传参的方式 不需要匹配路由规则 -->
+        <router-link to="/login" tag='span'>登录</router-link>
+        <router-link to="/register">注册</router-link>
+        <router-view></router-view>
+    </div>
+</body>
+<script>
+    const login = {
+        template:'<h1>登录</h1>',
+        created () {
+            // console.log(this.$route.query.id);
+        }
+    };
+    const register = {
+        template:'<h1>注册</h1>',
+        created () {
+            // console.log(this.$route.params.username);
+            // console.log(this.$route);
+        }
+    };
+    const router = new VueRouter({
+        routes:[
+            { path:'/', redirect: '/login' },
+            { path: '/login', component: login },
+            // 使用params传参的方式(占位符)
+            { path: '/register', component: register }
+        ]
+    })
+    let vm = new Vue({
+        el:'#app',
+        data:{},
+        methods: {},
+        filters: {},
+        directives: {},
+        components: {
+            login,
+            register
+        },
+        router,
+        watch: {
+            '$route.path':function(newVal){
+                if(newVal === '/login'){
+                    console.log('这是登录组件页面')
+                }else if(newVal === '/register'){
+                    console.log('这是注册组件页面');
+                }
+            }
+        }
+    })
+</script>
+</html>

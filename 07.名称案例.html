@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>名称案例</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="firstname" @keyup='getfullname'>+
+        <input type="text" v-model="lastname" @keyup='getfullname'>=
+        <input type="text" v-model="fullname">
+    </div>
+</body>
+<script src="./libs/vue.js"></script>
+<script>
+ const vm = new Vue({
+     el:'#app',
+     data:{
+         firstname:'',
+         lastname:'',
+         fullname:''
+     },
+     methods:{
+        getfullname(){
+          this.fullname = this.firstname + '-' + this.lastname
+        }
+     }
+ })
+
+</script>
+
+</html>

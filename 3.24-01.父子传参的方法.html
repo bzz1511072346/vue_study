@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <com :parentmsg='msg'></com>
+    </div>
+</body>
+<script src="./libs/vue.js"></script>
+<script>
+    //父组件向子组件传递数据用属性绑定v-bind:parent=''
+    //父组件向子组件传递方法件事用时间绑定v-on:parent=''
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            msg:'我是父组件的数据'
+        },
+        components: {
+            com:{
+                template:'<h1>我是一个子组件======={{parentmsg}}</h1>',
+                data(){
+                    return{
+
+                    }
+                },
+                props: ['parentmsg'],
+                methods: {
+                    
+                }
+            }
+        }
+    })
+</script>
+</html>

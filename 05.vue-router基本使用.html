@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue-router的基本使用</title>
+    <script src="./libs/vue.js"></script>
+    <script src="./libs/vue-router.js"></script>
+    <style>
+        .router-link-active{
+            color: palevioletred;
+            font-size: 16px;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- <login></login>
+        <register></register> -->
+        <!-- 使用query传参的方式 不需要匹配路由规则 -->
+        <router-link to="/login?id=10" tag='span'>登录</router-link>
+        <router-link to="/register/2/张三">注册</router-link>
+        <router-view></router-view>
+    </div>
+</body>
+<script>
+    const login = {
+        template:'<h1>登录</h1>',
+        created () {
+            console.log(this.$route.query.id);
+        }
+    };
+    const register = {
+        template:'<h1>注册</h1>',
+        created () {
+            console.log(this.$route.params.username);
+        }
+    };
+    const router = new VueRouter({
+        routes:[
+            { path: '/login', component: login },
+            // 使用params传参的方式(占位符)
+            { path: '/register/:id/:username', component: register }
+        ]
+    })
+    let vm = new Vue({
+        el:'#app',
+        data:{},
+        methods: {},
+        filters: {},
+        directives: {},
+        components: {
+            login,
+            register
+        },
+        router:router
+    })
+</script>
+</html>

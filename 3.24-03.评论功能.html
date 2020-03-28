@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <com1 @func='getcomments'></com1>
+        <div v-for="(item,index) in list" :key='index'>
+            <p> {{ item.content }} <span style="display: block; float: right; font-size: 12px;">评论人： {{ item.user }} </span> </p>
+            <hr>
+        </div>
+    </div>
+    <template id="tmpl">
+        <div>
+            <p>评论人:</p>
+            <input type="text" style="width: 50%; height: 30px; border: 1px solid #cccccc; outline: none;" v-model="user">
+            <p>内容:</p>
+            <textarea style="width: 50%; height: 50px; border: 1px solid #cccccc; outline: none;" v-model="content"></textarea>
+            <div style="margin-top: 15px;">
+                <input type="button" value="发表评论" style="width: 100px;height: 30px;background: palevioletred; border-radius: 5px;text-align: center;line-height: 30px;color: #ffffff;border:none;outline: none;cursor: pointer;" @click='publish'>
+            </div>
+        </div>
+    </template>
+</body>
+<script src="./libs/vue.js"></script>
+<script>
+    let com1 = {
+        template:'#tmpl',
+        data(){
+            return{
+                user:'',
+                content:''
+            }
+        },
+        methods:{
+            publish(){
+                var pub = {id:Date.now(),user:this.user,content:this.content};
+                var list = JSON.parse(localStorage.getItem('cmts') || '[]');
+                list.unshift(pub);
+                localStorage.setItem('cmts',JSON.stringify(list));
+                this.user = this.content = '';
+                this.$emit('func')
+            }
+        }
+    }
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            list:[
+                {id:Date.now(),user:'李白',content:'长风破浪会有时'},
+                {id:Date.now(),user:'杜甫',content:'会当凌绝顶，一览众山小'},
+                {id:Date.now(),user:'苏轼',content:'竹杖芒鞋轻胜马，谁怕？'}
+            ]
+        },
+        created () {
+          this.getcomments();  
+        },
+        methods: {
+            getcomments(){
+                this.list = JSON.parse(localStorage.getItem('cmts'))
+            }
+        },
+        components: {
+            com1
+        }
+    })
+</script>
+</html>

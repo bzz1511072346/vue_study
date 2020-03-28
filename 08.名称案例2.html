@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>名称案例</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="firstname">+
+        <input type="text" v-model="lastname">=
+        <input type="text" v-model="fullname">
+    </div>
+</body>
+<script src="./libs/vue.js"></script>
+<script>
+ const vm = new Vue({
+     el:'#app',
+     data:{
+         firstname:'',
+         lastname:'',
+         fullname:''
+     },
+     methods:{},
+     watch: {
+         'firstname':function(newVal,oldVal){
+            // console.log(newVal + '-----' +oldVal)
+            this.fullname = newVal + '-' + this.lastname
+         },
+         'lastname':function(newVal){
+            this.fullname = this.firstname + '-' + newVal
+         }
+     }
+ })
+
+</script>
+
+</html>

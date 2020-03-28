@@ -56,7 +56,7 @@
             <div class="keywords">
                 <label>
                     搜索名称关键字:
-                    <input type="text" v-model='keywords'>
+                    <input type="text" v-model='keywords' v-focus v-color='"pink"'>
                 </label>
             </div>
         </div>
@@ -70,14 +70,33 @@
             <tr v-for='(item,i) in search(keywords)' :key='i'>
                 <td>{{ item.id }}</td>
                 <td>{{ item.name }}</td>
-                <td>{{ item.ctime }}</td>
+                <td>{{ item.ctime | gettime }}</td>
                 <td><a href="" @click.prevent="del(item.id)">删除</a></td>
             </tr>
         </table>
     </div>
+    <div id="app2">
+        <p v-fontcolor = '"pink"'> {{ msg | gettime('') }}</p>
+    </div>
 </body>
 
 <script>
+    //自定义全局过滤器的方法  过滤器只能在插值表达式或者v-bind中使用
+    //遵循就近原则过滤器名称一样时有私有的话私有会覆盖全局的过滤器
+    Vue.filter('gettime', function (ctime) {
+        var dt = new Date(ctime);
+        var y = dt.getFullYear();
+        var m = dt.getMonth();
+        var d = dt.getDate();
+        return `${y}-${m}-${d}`
+    })
+    //自定义全局指令的方法
+    Vue.directive('focus', {
+        bind: function (el) { },
+        inserted: function (el) {
+            el.focus()
+        }
+    });
     var vm = new Vue({
         el: '#app',
         data: {
@@ -113,6 +132,59 @@
                 return newList;
             }
         },
+        directives: {
+            //自定义私有指令方法
+            'color': {
+                bind: function (el, binding) {
+                    el.style.color = binding.value;
+                    // console.log(binding.value)
+                },
+                inserted: function () {
+
+                },
+                updated: function () {
+
+                }
+            }
+        },
+        filters: {
+
+        }
+    })
+    var vm2 = new Vue({
+        el: "#app2",
+        data: {
+            msg: new Date(),
+        },
+        filters: {
+            gettime: function (ctime, opt = '') {
+                var dt = new Date(ctime);
+                var y = dt.getFullYear();
+                var m = (dt.getMonth() + 1).toString().padStart(2,'0');
+                var d = dt.getDate().toString().padStart(2,'0');
+                if (opt.toLowerCase === 'yyyy-mm-dd') {
+                    return `${y}-${m}-${d}`
+                } else {
+                    var h = dt.getHours().toString().padStart(2,'0');
+                    var mm = dt.getMinutes().toString().padStart(2,'0');
+                    var ss = dt.getSeconds().toString().padStart(2,'0');
+                    return `${y}-${m}-${d} ${h}:${mm}:${ss}`
+                }
+            }
+        },
+        directives:{
+            'fontcolor':{
+                bind:function(el,binding){
+                    el.style.color = binding.value;
+                },
+                inserted:function(){
+
+                },
+                updated:function(){
+
+                }
+            }
+        }
     })
 </script>
 
